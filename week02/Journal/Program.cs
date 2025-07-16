@@ -1,3 +1,9 @@
+// Author: Dennis Lopez
+// Purporse: W02 Journal Program
+
+//Exceeding requirements: by adding a personal record feature, created new class Stats to track entries, 
+// added Stats object to Program.cs.
+
 using System;
 using System.IO.Enumeration;
 
@@ -9,6 +15,9 @@ class Program
         Journal journal = new Journal();
         PromptGenerator promptGenerator = new PromptGenerator();
 
+        Stats stats = new Stats();
+        stats.LoadStats();
+
         string choice = "";
         while (choice != "5")
         {
@@ -18,12 +27,15 @@ class Program
             Console.WriteLine("3.Load");
             Console.WriteLine("4.Save");
             Console.WriteLine("5.Quit");
+            Console.WriteLine("6.Personal Record");
             Console.Write("What would you like to do? ");
             choice = Console.ReadLine();
 
             if (choice == "1")
             {
                 Entry newEntry = new Entry();
+                stats.IncrementEntries();
+                stats.SaveStats();
 
                 newEntry._promptText = promptGenerator.GetRandomPrompt();
                 Console.WriteLine(newEntry._promptText);
@@ -54,6 +66,10 @@ class Program
                 string filename = Console.ReadLine();
                 journal.SaveToFile(filename);
                 Console.WriteLine("File saved\n");
+            }
+            else if (choice == "6")
+            {
+                Console.WriteLine($"Your personal record is: {stats.totalEntries} entries in a row, you can make it!");
             }
             else
             {
